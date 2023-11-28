@@ -5,3 +5,4 @@ django-filter
 psycopg2-binary
 python-dotenv
 drf-extra-fields
+django-rest-passwordreset
