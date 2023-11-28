@@ -1,0 +1,7 @@
+-r requirements.txt
+django-debug-toolbar
+flake8
+requests
+pytest
+pytest-django
+model_bakery

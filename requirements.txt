@@ -1,2 +1,7 @@
-Django==2.2.16
-pytz==2018.5
+Django
+pytz
+djangorestframework
+django-filter
+psycopg2-binary
+python-dotenv
+drf-extra-fields
