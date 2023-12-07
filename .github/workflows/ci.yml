@@ -17,9 +17,6 @@ jobs:
       DB_PORT: ${{ vars.DB_PORT }}
       DB_USER: ${{ vars.DB_USER }}
       DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-      PAGINATION_PAGE_SIZE: 100
-      THROTTLE_RATE_ANON_PERMINUTE: 100000
-      THROTTLE_RATE_USER_PERMINUTE: 100000
     services:
       postgres:
         image: postgres:12
@@ -63,3 +60,6 @@ jobs:
           DB_PORT: ${{ env.DB_PORT }}
           DB_USER: ${{ env.DB_USER }}
           DB_PASSWORD: ${{ env.DB_PASSWORD }}
+          PAGINATION_PAGE_SIZE: 100
+          THROTTLE_RATE_ANON_PERMINUTE: 100000
+          THROTTLE_RATE_USER_PERMINUTE: 100000
