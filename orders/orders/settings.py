@@ -10,11 +10,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 import os
-
 from pathlib import Path
+
 from dotenv import load_dotenv
 
-ENV_FILENAME = os.getenv('ENV_FILENAME')
+ENV_FILENAME = os.getenv('ENV_FILENAME', default='.env')
 if ENV_FILENAME is not None and os.path.exists(ENV_FILENAME):
     load_dotenv(ENV_FILENAME)
 
@@ -104,7 +104,7 @@ DATABASES = {
         'USER': os.getenv('DB_USER'),
         'PASSWORD': os.getenv('DB_PASSWORD'),
         'TEST': {
-            'NAME': 'submit_job_docs_test',
+            'NAME': 'orders_test',
         },
     }
 }
@@ -173,12 +173,10 @@ REST_FRAMEWORK = {
 }
 
 PASSWORD_HASHERS = (
-    'django.contrib.auth.hashers.SHA1PasswordHasher',
     'django.contrib.auth.hashers.PBKDF2PasswordHasher',
     'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
     'django.contrib.auth.hashers.BCryptPasswordHasher',
     'django.contrib.auth.hashers.MD5PasswordHasher',
-    'django.contrib.auth.hashers.CryptPasswordHasher',
 )
 
 AUTH_USER_MODEL = 'backend.User'
