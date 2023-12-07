@@ -28,7 +28,7 @@ def test_order_post(client, user_authorization_header, set_email_host_user, mail
     request_url = '/api/v1/order'
     user, headers = user_authorization_header
     contact = contact_factory(_quantity=1, user=user)[0]
-    order_factory(_quantity=1, user=user, state='basket')
+    order = order_factory(_quantity=1, user=user, state='basket')[0]
 
     # проверяем неавторизованный вызов
     data = {
@@ -48,7 +48,7 @@ def test_order_post(client, user_authorization_header, set_email_host_user, mail
 
     # проверяем успешный вызов
     data = {
-        "id": str(user.id),
+        "id": str(order.id),
         "contact": str(contact.id),
     }
     assert_success_status(client.post(request_url, data=data, headers=headers))

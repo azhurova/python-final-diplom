@@ -9,7 +9,7 @@ from tests import *
 def test_category_get(client, category_factory):
     request_url = '/api/v1/categories'
     categories = category_factory(_quantity=10)
-    categories.sort(key=lambda c: c.name, reverse=True)
+    categories.sort(key=lambda c: c.name.upper(), reverse=True)
 
     # проверяем неавторизованный успешный вызов
     data = assert_success_response(client.get(request_url))

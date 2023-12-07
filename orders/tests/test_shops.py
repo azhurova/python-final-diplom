@@ -9,7 +9,7 @@ from tests import *
 def test_shop_get(client, shop_factory):
     request_url = '/api/v1/shops'
     shops = shop_factory(_quantity=10)
-    shops.sort(key=lambda s: s.name, reverse=True)
+    shops.sort(key=lambda s: s.name.upper(), reverse=True)
 
     # проверяем неавторизованный успешный вызов
     data = assert_success_response(client.get(request_url))
