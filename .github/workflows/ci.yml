@@ -2,7 +2,7 @@ name: orders testing
 on:
   push:
     branches:
-      - master
+      - main
 jobs:
   tests:
     runs-on: ubuntu-22.04
