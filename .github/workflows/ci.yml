@@ -17,6 +17,7 @@ jobs:
       DB_PORT: ${{ vars.DB_PORT }}
       DB_USER: ${{ vars.DB_USER }}
       DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      WORKING-DIRECTORY: orders/
     services:
       postgres:
         image: postgres:12
@@ -46,11 +47,13 @@ jobs:
 
       - name: Линтинг
         run: flake8 orders --max-complexity=10 --max-line-length=120 --ignore=F403,F405 --exclude=migrations --count
+        working-directory: ${{env.WORKING-DIRECTORY}}
 
       - name: Тестирование
         run: |
           python3 manage.py migrate
           pytest tests --cov=backend
+        working-directory: ${{env.WORKING-DIRECTORY}}
         env:
           SECRET_KEY: ${{ env.SECRET_KEY }}
           DEBUG: ${{ env.DEBUG }}
