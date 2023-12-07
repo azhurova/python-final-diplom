@@ -8,14 +8,14 @@ jobs:
     runs-on: ubuntu-22.04
     env:
       SECRET_KEY: ${{ secrets.SECRET_KEY }}
-      TIME_ZONE: ${{ secrets.TIME_ZONE }}
-      DEBUG: ${{ secrets.DEBUG }}
-      ALLOWED_HOSTS: ${{ secrets.ALLOWED_HOSTS }}
-      DB_ENGINE: ${{ secrets.DB_ENGINE }}
-      DB_NAME: ${{ secrets.DB_NAME }}
-      DB_HOST: ${{ secrets.DB_HOST }}
-      DB_PORT: ${{ secrets.DB_PORT }}
-      DB_USER: ${{ secrets.DB_USER }}
+      TIME_ZONE: ${{ vars.TIME_ZONE }}
+      DEBUG: ${{ vars.DEBUG }}
+      ALLOWED_HOSTS: ${{ vars.ALLOWED_HOSTS }}
+      DB_ENGINE: ${{ vars.DB_ENGINE }}
+      DB_NAME: ${{ vars.DB_NAME }}
+      DB_HOST: ${{ vars.DB_HOST }}
+      DB_PORT: ${{ vars.DB_PORT }}
+      DB_USER: ${{ vars.DB_USER }}
       DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
       PAGINATION_PAGE_SIZE: 100
       THROTTLE_RATE_ANON_PERMINUTE: 100000
