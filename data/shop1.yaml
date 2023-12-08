@@ -1,4 +1,6 @@
 shop: Связной
+url: https://www.svyaznoy.ru
+
 categories:
   - id: 224
     name: Смартфоны

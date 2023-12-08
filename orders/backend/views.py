@@ -1,5 +1,4 @@
 from distutils.util import strtobool
-from json import load as load_json, loads
 
 from django.contrib.auth import authenticate
 from django.contrib.auth.password_validation import validate_password
@@ -289,21 +288,22 @@ class PartnerUpdate(APIView):
         if request.user.type != 'shop':
             return JsonResponse({'Status': False, 'Error': 'Только для магазинов'}, status=403)
 
-        yaml_file = request.FILES.get('yaml')
-        json_file = request.FILES.get('json')
-        if yaml_file or json_file:
+        file = request.FILES.get('file')
+        if file:
             try:
-                if yaml_file:
-                    data = load_yaml(yaml_file, Loader=Loader)
-                else:
-                    data = load_json(json_file)
+                data = load_yaml(file, Loader=Loader)
 
                 shop, _ = Shop.objects.get_or_create(name=data['shop'], user_id=request.user.id)
+                if 'url' in data.keys() and shop.url != data['url']:
+                    shop.url = data['url']
+                    shop.save()
+
                 for category in data['categories']:
                     category_object, _ = Category.objects.get_or_create(id=category['id'], name=category['name'])
                     category_object.shops.add(shop.id)
                     category_object.full_clean()
                     category_object.save()
+
                 ProductInfo.objects.filter(shop_id=shop.id).delete()
                 for item in data['goods']:
                     product, _ = Product.objects.get_or_create(name=item['name'], category_id=item['category'])
@@ -318,7 +318,7 @@ class PartnerUpdate(APIView):
                                                         parameter_id=parameter_object.id, value=value)
 
                 return JsonResponse({'Status': True})
-            except (DataError, ValidationError) as e:
+            except (IntegrityError, DataError, ValidationError) as e:
                 return JsonResponse({'Status': False, 'Error': str(e)})
 
         return JsonResponse({'Status': False, 'Errors': 'Не указаны все необходимые аргументы'})
@@ -336,10 +336,12 @@ class PartnerState(APIView):
 
         if request.user.type != 'shop':
             return JsonResponse({'Status': False, 'Error': 'Только для магазинов'}, status=403)
-
-        shop = request.user.shop
-        serializer = ShopSerializer(shop)
-        return Response(serializer.data)
+        try:
+            shop = request.user.shop
+            serializer = ShopSerializer(shop)
+            return Response(serializer.data)
+        except AttributeError as error:
+            return JsonResponse({'Status': False, 'Errors': str(error)})
 
     # изменить текущий статус
     def post(self, request, *args, **kwargs):
@@ -348,6 +350,7 @@ class PartnerState(APIView):
 
         if request.user.type != 'shop':
             return JsonResponse({'Status': False, 'Error': 'Только для магазинов'}, status=403)
+
         state = request.data.get('state')
         if state:
             try:

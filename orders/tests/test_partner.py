@@ -13,10 +13,6 @@ from tests import *
 def test_partner_state_get(client, user_authorization_header, shop_factory):
     request_url = '/api/v1/partner/state'
     user, headers = user_authorization_header
-    if user.type == 'shop':
-        shop = shop_factory(_quantity=1, user=user)[0]
-    else:
-        shop = None
 
     # проверяем неавторизованный вызов
     assert_fault_status(client.get(request_url), HTTPStatus.FORBIDDEN)
@@ -25,7 +21,11 @@ def test_partner_state_get(client, user_authorization_header, shop_factory):
         # проверяем вызов buyer
         assert_fault_status(client.get(request_url, headers=headers), HTTPStatus.FORBIDDEN)
     else:
+        # проверяем отсутствие shop
+        assert_fault_status(client.get(request_url, headers=headers))
+
         # проверяем успешный вызов shop
+        shop = shop_factory(_quantity=1, user=user)[0]
         data = assert_success_response(client.get(request_url, headers=headers))
         assert data['name'] == shop.name
 
@@ -151,7 +151,7 @@ def test_partner_update_post(client, settings, user_authorization_header):
         if path.exists(json_file_name):
             with open(json_file_name, 'rb') as json_file:
                 assert_fault_status(
-                    client.post(request_url, data={'json': json_file}, format='multipart', headers=headers))
+                    client.post(request_url, data={'file': json_file}, format='multipart', headers=headers))
 
         # проверяем успешный вызов
         yaml_file_name = path.join(file_dir, 'shop1.yaml')
@@ -160,7 +160,7 @@ def test_partner_update_post(client, settings, user_authorization_header):
         if path.exists(yaml_file_name):
             with open(yaml_file_name, 'rb') as yaml_file:
                 assert_success_status(
-                    client.post(request_url, data={'yaml': yaml_file}, format='multipart', headers=headers))
+                    client.post(request_url, data={'file': yaml_file}, format='multipart', headers=headers))
 
             with open(yaml_file_name, 'r', encoding='utf8') as fh:
                 data = load_yaml(fh, Loader=FullLoader)
@@ -173,7 +173,7 @@ def test_partner_update_post(client, settings, user_authorization_header):
         if path.exists(json_file_name):
             with open(json_file_name, 'rb') as json_file:
                 assert_success_status(
-                    client.post(request_url, data={'json': json_file}, format='multipart', headers=headers))
+                    client.post(request_url, data={'file': json_file}, format='multipart', headers=headers))
 
             with open(json_file_name, 'r', encoding='utf8') as fh:
                 data = load_json(fh)

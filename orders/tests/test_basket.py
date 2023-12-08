@@ -75,7 +75,7 @@ def test_basket_put(client, user_authorization_header, order_factory, order_item
 
     # проверяем формат запроса
     data = {"items": {"product_info": 1}}
-    assert_fault_status(client.post(request_url, data=data, headers=headers))
+    assert_fault_status(client.put(request_url, data=data, headers=headers))
 
     # проверяем успешный вызов
     order = create_basket_order(user, order_factory, order_item_factory, products_info_factory)
