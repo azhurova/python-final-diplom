@@ -43,7 +43,7 @@ class CategorySerializer(serializers.ModelSerializer):
 class ShopSerializer(serializers.ModelSerializer):
     class Meta:
         model = Shop
-        fields = ('id', 'name', 'state','url', 'user')
+        fields = ('id', 'name', 'state', 'url', 'user')
         read_only_fields = ('id',)
         extra_kwargs = {'user': {'write_only': True}}
 
