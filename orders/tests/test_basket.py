@@ -2,7 +2,7 @@ from http import HTTPStatus
 
 import pytest
 
-from tests import *
+from tests import assert_success_response, assert_success_status, assert_fault_status
 
 
 def create_basket_order(user, order_factory, order_item_factory, products_info_factory):
@@ -80,8 +80,7 @@ def test_basket_put(client, user_authorization_header, order_factory, order_item
     # проверяем успешный вызов
     order = create_basket_order(user, order_factory, order_item_factory, products_info_factory)
     order_items = order.ordered_items.model.objects.all()[:3]
-    data = {"items": [{"id": order_items[0].id, "quantity": 5},
-                      {"id": order_items[1].id, "quantity": 6},
+    data = {"items": [{"id": order_items[0].id, "quantity": 5}, {"id": order_items[1].id, "quantity": 6},
                       {"id": order_items[2].id, "quantity": 7}]}
 
     response_data = assert_success_status(client.put(request_url, data=data, headers=headers))

@@ -3,7 +3,8 @@ from http import HTTPStatus
 
 import pytest
 
-from tests import *
+from tests import FROM_EMAIL
+from tests import assert_success_response, assert_success_status, assert_fault_status
 
 
 @pytest.mark.django_db

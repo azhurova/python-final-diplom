@@ -45,7 +45,7 @@ jobs:
         run: pip install -r requirements-test.txt
 
       - name: Линтинг
-        run: flake8 orders --max-complexity=10 --max-line-length=120 --ignore=F403,F405 --exclude=migrations --count
+        run: flake8 orders --max-complexity=10 --max-line-length=120 --exclude=migrations --count
         working-directory: ${{env.WORKING-DIRECTORY}}
 
       - name: Тестирование

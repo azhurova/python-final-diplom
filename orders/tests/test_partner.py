@@ -6,7 +6,7 @@ import pytest
 from yaml import load as load_yaml, FullLoader
 
 from backend.models import ProductParameter
-from tests import *
+from tests import assert_success_response, assert_success_status, assert_fault_status
 
 
 @pytest.mark.django_db

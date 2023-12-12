@@ -6,7 +6,8 @@ from rest_framework.exceptions import ValidationError
 
 from backend.models import User, Contact
 from backend.signals import new_user_registered_signal
-from tests import *
+from tests import USER_EMAIL, FROM_EMAIL
+from tests import assert_success_response, assert_success_status, assert_fault_status
 
 
 @pytest.mark.django_db

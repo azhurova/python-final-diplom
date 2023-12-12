@@ -2,7 +2,7 @@ from http import HTTPStatus
 
 import pytest
 
-from tests import *
+from tests import assert_success_response
 
 
 @pytest.mark.django_db
