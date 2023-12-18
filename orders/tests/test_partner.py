@@ -146,7 +146,7 @@ def test_partner_update_post(client, settings, user_authorization_header):
         assert_fault_status(client.post(request_url, format='multipart', headers=headers))
 
         # проверяем формат запроса
-        file_dir = 'D:/Programming/WEB/Projects/netology/Diplom/python-final-diplom/data/'
+        file_dir = path.join(path.dirname(settings.BASE_DIR), 'data')
         json_file_name = path.join(file_dir, 'shop1_fault.json')
         if path.exists(json_file_name):
             with open(json_file_name, 'rb') as json_file:
