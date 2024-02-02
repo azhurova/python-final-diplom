@@ -9,3 +9,6 @@ drf-extra-fields
 django-rest-passwordreset
 PyYAML
 ujson
+gunicorn
+redis
+celery
