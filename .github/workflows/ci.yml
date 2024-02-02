@@ -17,6 +17,10 @@ jobs:
       DB_PORT: ${{ vars.DB_PORT }}
       DB_USER: ${{ vars.DB_USER }}
       DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      CELERY_REDIS_DB_HOST: ${{ vars.CELERY_REDIS_DB_HOST }}
+      CELERY_REDIS_DB_PORT: ${{ vars.CELERY_REDIS_DB_PORT }}
+      CELERY_REDIS_BACKEND: ${{ vars.CELERY_REDIS_BACKEND }}
+      CELERY_REDIS_BROKER: ${{ vars.CELERY_REDIS_BROKER }}
       WORKING-DIRECTORY: orders/
     services:
       postgres:
@@ -30,6 +34,13 @@ jobs:
         options: >-
           --health-cmd pg_isready
           --health-interval 5s
+          --health-timeout 5s
+          --health-retries 5
+      redis:
+        image: redis
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
           --health-timeout 5s
           --health-retries 5
     steps:
@@ -63,6 +74,10 @@ jobs:
           DB_PORT: ${{ env.DB_PORT }}
           DB_USER: ${{ env.DB_USER }}
           DB_PASSWORD: ${{ env.DB_PASSWORD }}
+          CELERY_REDIS_DB_HOST: ${{ vars.CELERY_REDIS_DB_HOST }}
+          CELERY_REDIS_DB_PORT: ${{ vars.CELERY_REDIS_DB_PORT }}
+          CELERY_REDIS_BACKEND: ${{ vars.CELERY_REDIS_BACKEND }}
+          CELERY_REDIS_BROKER: ${{ vars.CELERY_REDIS_BROKER }}
           PAGINATION_PAGE_SIZE: 100
           THROTTLE_RATE_ANON_PERMINUTE: 100000
           THROTTLE_RATE_USER_PERMINUTE: 100000

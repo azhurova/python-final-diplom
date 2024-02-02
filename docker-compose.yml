@@ -64,8 +64,8 @@ services:
       - DB_USER=orders_diplom_user
       - DB_PASSWORD=orders_diplom_user_password
       - DEBUG=False
-      - REDIS_DB_HOST=db-redis
-      - REDIS_DB_PORT=6379
+      - CELERY_REDIS_DB_HOST=db-redis
+      - CELERY_REDIS_DB_PORT=6379
       - CELERY_REDIS_BACKEND=2
       - CELERY_REDIS_BROKER=4
     container_name: app
@@ -98,8 +98,8 @@ services:
       dockerfile: ./orders/celery.Dockerfile
     environment:
       - DEBUG=False
-      - REDIS_DB_HOST=db-redis
-      - REDIS_DB_PORT=6379
+      - CELERY_REDIS_DB_HOST=db-redis
+      - CELERY_REDIS_DB_PORT=6379
       - CELERY_REDIS_BACKEND=2
       - CELERY_REDIS_BROKER=4
     container_name: celery_app
