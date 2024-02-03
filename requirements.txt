@@ -12,3 +12,4 @@ ujson
 gunicorn
 redis
 celery
+drf-spectacular

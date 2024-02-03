@@ -3,6 +3,17 @@ from rest_framework import serializers
 from backend.models import User, Category, Shop, ProductInfo, Product, ProductParameter, OrderItem, Order, Contact
 
 
+class StatusSerializer(serializers.Serializer):
+    status = serializers.BooleanField
+    errors = serializers.CharField
+
+    def validate(self, data):
+        status = data['status']
+        if not status:
+            raise serializers.ValidationError("status field is required.")
+        return data
+
+
 class ContactSerializer(serializers.ModelSerializer):
     def validate(self, attrs):
         if attrs['type'] == 'phone':
@@ -18,10 +29,7 @@ class ContactSerializer(serializers.ModelSerializer):
         model = Contact
         fields = ('id', 'city', 'street', 'house', 'structure', 'building', 'apartment', 'user', 'phone', 'type')
         read_only_fields = ('id',)
-        extra_kwargs = {
-            'type': {'write_only': True},
-            'user': {'write_only': True}
-        }
+        extra_kwargs = {'type': {'write_only': True}, 'user': {'write_only': True}}
 
 
 class UserSerializer(serializers.ModelSerializer):

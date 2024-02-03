@@ -52,6 +52,7 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'rest_framework.authtoken',
+    'drf_spectacular',
     'django_filters',
     'django_rest_passwordreset',
 
@@ -156,6 +157,7 @@ REST_FRAMEWORK = {
         'rest_framework.filters.SearchFilter',
         'rest_framework.filters.OrderingFilter',
     ],
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
     ],
@@ -194,3 +196,10 @@ CELERY_REDIS_DB_HOST = os.getenv("CELERY_REDIS_DB_HOST")
 CELERY_REDIS_DB_PORT = os.getenv("CELERY_REDIS_DB_PORT")
 CELERY_REDIS_BACKEND = os.getenv("CELERY_REDIS_BACKEND")
 CELERY_REDIS_BROKER = os.getenv("CELERY_REDIS_BROKER")
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Orders Project API',
+    'DESCRIPTION': 'Orders',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+}
